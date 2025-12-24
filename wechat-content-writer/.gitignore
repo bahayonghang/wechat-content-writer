@@ -1,0 +1,43 @@
+# Claude Code specific
+.claude/*.local.md
+.claude-plugin/cache/
+.claude-plugin/temp/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Editor specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+npm-debug.log*
+
+# Python cache (if any)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary files
+*.tmp
+*.temp
+.temp/
+.cache/
+
+# Logs
+logs/
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+out/

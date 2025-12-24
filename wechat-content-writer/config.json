@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "plugin_name": "wechat-content-writer",
+  "content_directories": {
+    "base_path": "../../wechat_doc",
+    "categories": {
+      "AI工业应用": "AI工业应用",
+      "文献解读": "文献解读",
+      "AI-Coding": "AI-Coding",
+      "技术分享": "技术分享",
+      "行业动态": "行业动态"
+    }
+  },
+  "file_naming": {
+    "pattern": "{category}/{date}_{title}.md",
+    "date_format": "YYYY-MM-DD"
+  },
+  "mcp_servers": {
+    "web-search": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/simple-search-server.js"],
+      "env": {
+        "PORT": "3001"
+      }
+    }
+  },
+  "auto_create_directories": true,
+  "content_validation": true
+}

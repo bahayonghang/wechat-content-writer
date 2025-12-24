@@ -1,0 +1,30 @@
+# Claude Code specific
+.claude/
+.serena/
+
+# User-specific settings
+*.local.json
+
+# Documents and resources
+resource/
+wechat_doc/
+
+# Node modules
+node_modules/
+npm-debug.log*
+package-lock.json
+yarn.lock
+
+# Logs
+*.log
+logs/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Editor specific
+.vscode/
+.idea/
+*.swp
+*.swo

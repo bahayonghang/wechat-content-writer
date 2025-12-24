@@ -1,0 +1,12 @@
+{
+  "name": "wechat-content-writer",
+  "version": "1.0.0",
+  "description": "微信公众号内容创作插件 - 支持文献搜索、PDF解读和自动文章生成",
+  "author": {
+    "name": "WeChat Content Creator",
+    "email": "creator@example.com"
+  },
+  "keywords": ["wechat", "content-creation", "literature-search", "pdf-analysis", "ai-writing"],
+  "homepage": "https://github.com/user/wechat-content-writer",
+  "license": "MIT"
+}

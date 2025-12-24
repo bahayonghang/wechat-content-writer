@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "web-search": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/simple-search-server.js"],
+      "env": {
+        "PORT": "3001"
+      }
+    }
+  }
+}

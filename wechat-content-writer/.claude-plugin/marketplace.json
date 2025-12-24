@@ -1,0 +1,23 @@
+{
+  "name": "wechat-content-writer-marketplace",
+  "owner": {
+    "name": "bahayonghang",
+    "email": "bahayonghang@users.noreply.github.com"
+  },
+  "metadata": {
+    "description": "Professional WeChat official account content creation plugins",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "wechat-content-writer",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/bahayonghang/wechat-content-writer.git"
+      },
+      "description": "Professional WeChat content creation plugin with literature search, PDF analysis, and automated article generation. Objective writing style without AI-flavor language.",
+      "version": "1.0.0",
+      "strict": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "wechat-content-writer-docs",
+  "version": "1.0.0",
+  "description": "Documentation for WeChat Content Writer Plugin",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0"
+  },
+  "keywords": [
+    "wechat",
+    "content-creation",
+    "claude-code",
+    "documentation"
+  ],
+  "author": "WeChat Content Creator",
+  "license": "MIT"
+}

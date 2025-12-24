@@ -24,6 +24,43 @@
 
 ---
 
+## 🚀 安装方法
+
+### 方式一：通过 Marketplace 安装（推荐）
+
+> **最简单的安装方式！**
+
+```bash
+# 步骤 1：添加 marketplace
+/plugin marketplace add bahayonghang/wechat-content-writer
+
+# 步骤 2：安装插件
+/plugin install wechat-content-writer@wechat-content-writer-marketplace
+```
+
+就这样！插件会自动下载并配置完成。
+
+---
+
+### 方式二：手动安装
+
+```bash
+# 克隆仓库
+git clone https://github.com/bahayonghang/wechat-content-writer.git
+
+# 进入插件目录
+cd wechat-content-writer
+
+# 运行安装脚本
+# Windows PowerShell
+.\install.ps1
+
+# Linux/macOS
+./install.sh
+```
+
+---
+
 ## 快速开始
 
 ```bash

@@ -24,6 +24,43 @@
 
 ---
 
+## 🚀 Installation
+
+### Option 1: Install via Marketplace (Recommended)
+
+> **The easiest way to install the plugin!**
+
+```bash
+# Step 1: Add the marketplace
+/plugin marketplace add bahayonghang/wechat-content-writer
+
+# Step 2: Install the plugin
+/plugin install wechat-content-writer@wechat-content-writer-marketplace
+```
+
+That's it! The plugin will be automatically downloaded and configured.
+
+---
+
+### Option 2: Manual Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/bahayonghang/wechat-content-writer.git
+
+# Navigate to plugin directory
+cd wechat-content-writer
+
+# Run installation script
+# Windows PowerShell
+.\install.ps1
+
+# Linux/macOS
+./install.sh
+```
+
+---
+
 ## Quick Start
 
 ```bash

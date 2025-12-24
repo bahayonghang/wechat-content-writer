@@ -5,6 +5,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen)](https://nodejs.org)
 [![Claude Code](https://img.shields.io/badge/Claude_Code-Plugin-purple)](https://claude.ai/code)
+[![Docs](https://img.shields.io/badge/docs-VitePress-42b883?logo=vitepress)](https://bahayonghang.github.io/WechatDoucment/)
 
 ---
 
@@ -128,10 +129,33 @@ WechatDoucment/
 
 ## 文档导航
 
+> 📖 **[在线文档](https://bahayonghang.github.io/WechatDoucment/)** - 访问 VitePress 文档站点
+
+### 用户指南
+| 文档 | 说明 |
+|------|------|
+| [快速开始](https://bahayonghang.github.io/WechatDoucment/guide/getting-started) | 5分钟上手指南 |
+| [安装配置](https://bahayonghang.github.io/WechatDoucment/guide/installation) | 详细安装步骤 |
+| [命令参考](https://bahayonghang.github.io/WechatDoucment/guide/commands) | 9个命令完整说明 |
+| [技能使用](https://bahayonghang.github.io/WechatDoucment/guide/skills) | 3个自动技能介绍 |
+| [写作风格](https://bahayonghang.github.io/WechatDoucment/guide/writing-style) | 客观写作规范指南 |
+| [常见问题](https://bahayonghang.github.io/WechatDoucment/guide/faq) | FAQ 和故障排查 |
+
+### 开发文档
+| 文档 | 说明 |
+|------|------|
+| [架构设计](https://bahayonghang.github.io/WechatDoucment/development/architecture) | 系统架构和数据流 |
+| [API 参考](https://bahayonghang.github.io/WechatDoucment/development/api) | 搜索服务完整 API |
+| [配置说明](https://bahayonghang.github.io/WechatDoucment/development/configuration) | 所有配置选项 |
+| [插件开发](https://bahayonghang.github.io/WechatDoucment/development/plugin-development) | 开发者指南 |
+| [贡献指南](https://bahayonghang.github.io/WechatDoucment/development/contributing) | 如何贡献代码 |
+
+### 项目文档
 | 文档 | 说明 |
 |------|------|
 | [插件文档](wechat-content-writer/README.md) | 完整的插件英文文档 |
-| [CLAUDE.md](wechat-content-writer/CLAUDE.md) | Claude Code 开发指南 |
+| [CLAUDE.md](CLAUDE.md) | 项目架构文档 |
+| [插件 CLAUDE.md](wechat-content-writer/CLAUDE.md) | Claude Code 开发指南 |
 | [CONTENT_GUIDE.md](wechat-content-writer/CONTENT_GUIDE.md) | 目录结构和文件规范 |
 | [WRITING_STYLE_GUIDE.md](wechat-content-writer/WRITING_STYLE_GUIDE.md) | 专业写作风格指南 |
 | [INSTALL_GUIDE.md](wechat-content-writer/INSTALL_GUIDE.md) | 详细安装说明 |

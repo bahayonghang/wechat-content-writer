@@ -1,6 +1,6 @@
 ---
 name: create-article
-description: Create WeChat articles based on search results, PDF analysis, or literature research
+description: (DEPRECATED - Use specific commands: create-paper, create-news, create-tutorial, create-report, create-tech)
 argument-hint: "<title> --category=<category> --source=<source_type> [--template=<template>]"
 allowed-tools: ["Read", "Write", "Edit", "Grep", "Glob", "mcp__exa__web_search_exa", "mcp__exa__get_code_context_exa"]
 ---

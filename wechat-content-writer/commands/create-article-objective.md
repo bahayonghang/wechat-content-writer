@@ -1,6 +1,6 @@
 ---
-name: create-article
-description: Create professional WeChat articles based on search results, PDF analysis, or literature research
+name: create-article-objective
+description: Create objective professional WeChat articles (use create-paper for academic content)
 argument-hint: "<title> --category=<category> --source=<source_type> [--template=<template>]"
 allowed-tools: ["Read", "Write", "Edit", "Grep", "Glob", "mcp__exa__web_search_exa", "mcp__exa__get_code_context_exa"]
 ---

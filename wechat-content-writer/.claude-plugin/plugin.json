@@ -3,10 +3,40 @@
   "version": "1.0.0",
   "description": "微信公众号内容创作插件 - 支持文献搜索、PDF解读和自动文章生成",
   "author": {
-    "name": "WeChat Content Creator",
-    "email": "creator@example.com"
+    "name": "bahayonghang",
+    "email": "bahayonghang@users.noreply.github.com"
   },
   "keywords": ["wechat", "content-creation", "literature-search", "pdf-analysis", "ai-writing"],
-  "homepage": "https://github.com/user/wechat-content-writer",
-  "license": "MIT"
+  "homepage": "https://github.com/bahayonghang/wechat-content-writer",
+  "license": "MIT",
+  "commands": {
+    "create-paper": {
+      "description": "Create academic paper review article from PDF or literature search",
+      "usage": "/wechat-content-writer:create-paper \"<paper_title>\" --category=<category>"
+    },
+    "create-news": {
+      "description": "Create industry news analysis article from web search or research",
+      "usage": "/wechat-content-writer:create-news \"<news_title>\" --category=<category>"
+    },
+    "create-tutorial": {
+      "description": "Create technical tutorial or how-to guide article",
+      "usage": "/wechat-content-writer:create-tutorial \"<tutorial_title>\" --category=<category> --level=<beginner|intermediate|advanced>"
+    },
+    "create-report": {
+      "description": "Create industry research report or market analysis article",
+      "usage": "/wechat-content-writer:create-report \"<report_title>\" --category=<category> --focus=<market|technology|product>"
+    },
+    "create-tech": {
+      "description": "Create in-depth technical analysis article for technologies or frameworks",
+      "usage": "/wechat-content-writer:create-tech \"<tech_title>\" --category=<category> --aspect=<architecture|implementation|optimization>"
+    },
+    "search-content": {
+      "description": "Search for content from arXiv and web sources",
+      "usage": "/wechat-content-writer:search-content \"<search_query>\""
+    },
+    "manage-categories": {
+      "description": "Manage article categories and directories",
+      "usage": "/wechat-content-writer:manage-categories"
+    }
+  }
 }

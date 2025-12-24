@@ -1,245 +1,128 @@
-# CLAUDE.md
+# WeChat Content Writer Plugin - 模块文档
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-## Project Overview
-
-**WeChat Content Writer** is a Claude Code plugin for creating professional WeChat official account articles. It provides intelligent literature search, PDF analysis, and automated article generation capabilities with a focus on objective, technical writing styles.
-
-**Tech Stack:** TypeScript/JavaScript (Node.js), Express.js, MCP (Model Context Protocol) servers
-
-**Key Design Philosophy:**
-- **Objective & Professional**: Avoid sensationalist "AI-flavor" language; maintain neutral, technical accuracy
-- **Content-Plugin Separation**: Plugin code in `wechat-content-writer/`, content output in `../../wechat_doc/`
-- **Date-Based Organization**: All articles follow `{category}/YYYY-MM-DD_{title}.md` naming convention
+[根目录](../CLAUDE.md) > **wechat-content-writer**
 
 ---
 
-## Directory Architecture
-
-```
-WechatDoucment/                # Repository root
-├── wechat-content-writer/     # Plugin source code (THIS directory)
-│   ├── agents/                # AI agent definitions
-│   │   └── content-writer.md  # Main content creation agent
-│   ├── commands/              # Slash commands
-│   │   ├── create-article.md
-│   │   ├── create-article-objective.md  # Objective-style article creation
-│   │   ├── search-content.md
-│   │   └── manage-categories.md
-│   ├── skills/                # Auto-triggered skills
-│   │   ├── literature-research/
-│   │   ├── pdf-analysis/      # Standard PDF analysis
-│   │   └── pdf-analysis-objective/  # Objective PDF analysis
-│   ├── scripts/               # Server implementations
-│   │   ├── search-server.js   # Main search API server
-│   │   └── simple-search-server.js
-│   ├── hooks/                 # Plugin lifecycle hooks
-│   ├── config.json            # Plugin configuration
-│   └── .mcp.json              # MCP server definitions
-│
-└── ../../wechat_doc/          # Content output (outside plugin dir!)
-    ├── AI工业应用/
-    ├── 文献解读/
-    ├── AI-Coding/
-    ├── 技术分享/
-    └── 行业动态/
-```
-
-**Critical Path Separation:**
-- Plugin root: `D:\Documents\WechatDoucment\wechat-content-writer\`
-- Content base path: `../../wechat_doc/` (relative to plugin root)
-- Content full path: `D:\Documents\WechatDoucment\wechat_doc\`
+> **最后更新**: 2025-12-24
+> **模块类型**: Claude Code Plugin
+> **技术栈**: JavaScript/Node.js, Express.js, MCP
 
 ---
 
-## Development Commands
+## 变更记录 (Changelog)
 
-### Running the Search Server
+| 日期 | 版本 | 变更内容 |
+|------|------|----------|
+| 2025-12-24 | 1.0.0 | 初始化模块架构文档，添加面包屑导航 |
+
+---
+
+## 模块职责
+
+**wechat-content-writer** 是核心插件模块，负责：
+
+1. **命令处理**: 提供 9 个斜杠命令，覆盖不同类型的内容创作需求
+2. **技能触发**: 3 个自动技能，根据用户意图智能触发
+3. **AI 代理**: 内容创作代理，支持复杂任务的编排和优化
+4. **搜索服务**: 基于 Express 的搜索服务器，提供学术文献和网页搜索能力
+5. **配置管理**: 插件配置、MCP 服务器配置、内容目录管理
+
+---
+
+## 入口与启动
+
+### 插件入口
+
+| 入口文件 | 类型 | 说明 |
+|----------|------|------|
+| `.claude-plugin/plugin.json` | Plugin Metadata | Claude Code 插件定义 |
+| `.mcp.json` | MCP Config | MCP 服务器配置 |
+| `package.json` | NPM Package | Node.js 包定义 |
+
+### 服务启动
+
 ```bash
-# Production mode
-npm start
+# 生产模式
+npm start          # 启动 search-server.js (端口 3001)
 
-# Development mode with auto-reload
-npm run dev
+# 开发模式
+npm run dev        # 使用 nodemon 自动重载
 
-# Test server functionality
-npm test
+# 测试
+npm test           # 运行测试脚本
 ```
 
-The search server (`search-server.js`) runs on port 3001 and provides:
-- `POST /search/academic` - Academic literature search (arXiv, Google Scholar)
-- `POST /search/web` - General web content search
-- `POST /analyze/content` - Content analysis from URLs
-- `GET /health` - Health check endpoint
+### 服务端点
 
-### Plugin Installation
-```bash
-# Windows PowerShell
-.\install.ps1
-
-# Linux/macOS
-./install.sh
-```
-
-Installation scripts automatically:
-1. Create `wechat_doc/` directory structure with all category folders
-2. Configure proper relative paths in `config.json`
-3. Set up MCP server integration
+| 端点 | 方法 | 功能 |
+|------|------|------|
+| `/health` | GET | 健康检查 |
+| `/search/academic` | POST | 学术文献搜索 (arXiv + Google Scholar) |
+| `/search/web` | POST | 通用网页搜索 |
+| `/analyze/content` | POST | 内容分析 |
 
 ---
 
-## Content Creation Workflow
+## 对外接口
 
-### 1. Literature Research (Skill: `literature-research`)
-**Triggers:** "搜索文献", "查找学术资料", "literature search", "latest research"
+### 命令接口
 
-**Workflow:**
-- Search arXiv for recent papers in specific fields
-- Extract abstracts, key findings, methodologies
-- Assess relevance to target audience
-- Prepare for WeChat article transformation
+| 命令 | 用途 | 参数 | 模板 |
+|------|------|------|------|
+| `create-paper` | 学术论文解读 | `title, --category, [--url]` | Academic Research |
+| `create-article-objective` | 客观专业文章 | `title, --category, --source, [--template]` | Multiple |
+| `create-news` | 行业新闻分析 | `title, --category, [--source]` | News Analysis |
+| `create-tutorial` | 技术教程 | `title, --category, --level` | Tutorial |
+| `create-report` | 行业研究报告 | `title, --category, --focus` | Industry Report |
+| `create-tech` | 技术深度解析 | `title, --category, --aspect` | Technical Deep Dive |
+| `create-article` | 通用文章创建 | `title, --category, --source, [--template]` | Multiple |
+| `search-content` | 内容搜索 | `query` | - |
+| `manage-categories` | 分类管理 | `list/add/remove` | - |
 
-**Output:** Research findings summary with paper metadata
+### 技能接口
 
-### 2. PDF Analysis (Skill: `pdf-analysis` or `pdf-analysis-objective`)
-**Triggers:** "解析PDF", "解读文档", "analyze PDF", "parse academic paper"
+| 技能 | 触发关键词 | 输出 |
+|------|-----------|------|
+| `literature-research` | "搜索文献", "literature search" | 研究文献汇总 |
+| `pdf-analysis` | "解析PDF", "analyze PDF" | 通俗解读内容 |
+| `pdf-analysis-objective` | "客观分析", "专业解读" | 专业技术分析 |
 
-**Two Modes:**
-- **Standard (`pdf-analysis`)**: More conversational, engagement-focused
-- **Objective (`pdf-analysis-objective`)**: Neutral, technical, third-person only
+### 代理接口
 
-**Workflow:**
-- Extract metadata (title, authors, publication)
-- Parse abstract, methodology, results, conclusion
-- Identify technical contributions and limitations
-- Transform into WeChat-friendly format
-
-**Output:** Structured analysis with key insights
-
-### 3. Article Creation (Command: `create-article` or `create-article-objective`)
-**Usage:**
-```bash
-/wechat-content-writer:create-article "标题" --category="文献解读" --source="pdf" --template="literature-review"
-```
-
-**Arguments:**
-- `article_title` (required): Article title
-- `--category` (required): One of "AI工业应用", "文献解读", "AI-Coding", "技术分享", "行业动态"
-- `--source` (required): "search", "pdf", "research", "manual"
-- `--template` (optional): "literature-review", "technical-deep-dive", "news-analysis", "tutorial"
-
-**File Creation:**
-- Path: `../../wechat_doc/{category}/{YYYY-MM-DD}_{title}.md`
-- Includes YAML frontmatter with metadata
-- Markdown formatted for WeChat platform
+| 代理 | 用途 | 工具集 |
+|------|------|--------|
+| `content-writer` | 综合内容创作 | Read, Write, Edit, Grep, Glob, WebSearch, MCP tools |
 
 ---
 
-## Content Writing Style (Critical)
+## 关键依赖与配置
 
-### Objective Writing Requirements
-
-**AVOID (AI-flavor language):**
-- ❌ "火眼金睛", "秒变炼丹炉", "黑科技"
-- ❌ "震惊！", "突破！", "完美解决"
-- ❌ First-person: "我", "我们"
-- ❌ Excessive emojis: 🔥✨💡⚡
-- ❌ Exaggerated claims: "彻底改变", "完美解决"
-
-**USE (Professional language):**
-- ✅ "AI视觉识别系统", "工艺参数优化"
-- ✅ "技术进展", "应用实践", "解决方案"
-- ✅ Third-person neutral perspective
-- ✅ Specific data: "误差为0.02%，达到预期精度要求"
-- ✅ Qualified statements: "有效改善", "显著提升"
-
-**Reference:** `WRITING_STYLE_GUIDE.md` for comprehensive style guidelines
-
-### Title Examples
-
-❌ Bad: "AI看火焰就能预测钢铁质量？中国研究团队黑科技突破！"
-✅ Good: "基于多模态融合的FeO浓度实时预测技术应用研究"
-
----
-
-## MCP Server Integration
-
-The plugin integrates an MCP web search server defined in `.mcp.json`:
+### 运行时依赖
 
 ```json
 {
-  "mcpServers": {
-    "web-search": {
-      "command": "node",
-      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/simple-search-server.js"],
-      "env": { "PORT": "3001" }
-    }
-  }
+  "express": "^4.18.2",    // Web 服务器框架
+  "cors": "^2.8.5",        // 跨域支持
+  "axios": "^1.6.2",       // HTTP 客户端
+  "jsdom": "^23.0.1"       // DOM 解析
 }
 ```
 
-**Available MCP Tools:**
-- Web search capabilities via custom Express server
-- arXiv API integration for academic papers
-- Content analysis and extraction
-- Optional Google Scholar integration (requires `SEARCH_API_KEY` env variable)
+### 开发依赖
 
----
-
-## Agent Architecture
-
-### Content Writer Agent (`agents/content-writer.md`)
-
-**Purpose:** Comprehensive WeChat content creation with research synthesis and technical writing
-
-**Tools Available:**
-- File operations: Read, Write, Edit
-- Search: Grep, Glob, WebSearch
-- MCP tools: Exa web search, Context7 docs, Playwright browser automation
-- Model: Inherits from parent model configuration
-
-**Responsibilities:**
-1. Content strategy & planning
-2. Research synthesis from multiple sources
-3. Technical communication (simplify complexity, maintain accuracy)
-4. Storytelling & engagement optimization
-5. Platform optimization for WeChat mobile experience
-6. Quality assurance (accuracy, attribution, editorial standards)
-
-**Article Structure Template:**
-```markdown
-# [Compelling Title]
-
-## 引言：为什么这个话题值得关注
-[Engaging opening with hook]
-
-## 核心概念解析
-[Clear explanation with analogies]
-
-## 深度分析：关键发现和洞察
-[Main content with data and insights]
-
-## 实际应用：这对我们意味着什么？
-[Practical implications]
-
-## 行动指南：如何应用这些洞察
-[Concrete advice]
-
-## 总结与展望
-[Key takeaways and future developments]
-
----
-*来源：[Citations and references]*
-```
-
----
-
-## Configuration Files
-
-### `config.json` Structure
 ```json
 {
+  "nodemon": "^3.0.2"      // 开发时自动重载
+}
+```
+
+### 配置文件结构
+
+#### `config.json`
+```json
+{
+  "version": "1.0.0",
   "content_directories": {
     "base_path": "../../wechat_doc",
     "categories": {
@@ -253,185 +136,212 @@ The plugin integrates an MCP web search server defined in `.mcp.json`:
   "file_naming": {
     "pattern": "{category}/{date}_{title}.md",
     "date_format": "YYYY-MM-DD"
+  },
+  "auto_create_directories": true,
+  "content_validation": true
+}
+```
+
+#### `.mcp.json`
+```json
+{
+  "mcpServers": {
+    "web-search": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/simple-search-server.js"],
+      "env": { "PORT": "3001" }
+    }
   }
 }
 ```
 
-### Environment Variables (Optional)
-- `PORT`: Search server port (default: 3001)
-- `SEARCH_API_KEY`: Google Scholar/SerpAPI key for enhanced search
+### 环境变量
+
+| 变量 | 说明 | 默认值 |
+|------|------|--------|
+| `PORT` | 搜索服务器端口 | `3001` |
+| `SEARCH_API_KEY` | Google Scholar/SerpAPI 密钥 | - |
 
 ---
 
-## Common Development Tasks
+## 数据模型
 
-### Adding a New Article Category
+### 文章元数据模型
 
-1. Update `config.json`:
-```json
-"categories": {
-  "新分类": "新分类"
-}
+```yaml
+---
+title: "文章标题"
+category: "分类名称"
+date: "YYYY-MM-DD"
+source: "search|pdf|research|manual"
+template: "模板类型"
+tags: ["标签1", "标签2"]
+estimated_read_time: "阅读时间（分钟）"
+references: ["引用来源"]
+---
 ```
 
-2. Create directory manually or let installation script handle it:
-```bash
-mkdir -p ../../wechat_doc/新分类
+### 内容分类模型
+
+```
+wechat_doc/
+├── AI工业应用/          # 工业AI应用案例
+├── 文献解读/            # 学术论文解读
+├── AI-Coding/           # AI编程技术
+├── 技术分享/            # 通用技术分享
+└── 行业动态/            # 行业新闻趋势
 ```
 
-3. Update `CONTENT_GUIDE.md` to document the new category
+### 文件命名模型
 
-### Modifying Search Server
+```
+{category}/{YYYY-MM-DD}_{sanitized_title}.md
+```
 
-The main search logic is in `scripts/search-server.js`:
-- `searchArxiv()`: arXiv API integration
-- `searchGoogleScholar()`: Google Scholar via SerpAPI
-- `analyzeContent()`: Web content extraction and analysis
-
-**Key endpoints:**
-- Academic search: Combines arXiv + optional Google Scholar results
-- Web search: Falls back to free methods if no API key
-- Content analysis: Extracts title, description, keywords, readability metrics
-
-### Testing Article Generation
-
-Use the create-article command with different templates:
-```bash
-# Literature review from PDF
-/wechat-content-writer:create-article "论文标题解析" --category="文献解读" --source="pdf"
-
-# Technical deep dive from search
-/wechat-content-writer:create-article "技术实践" --category="技术分享" --source="search" --template="technical-deep-dive"
-
-# Manual creation
-/wechat-content-writer:create-article "行业趋势分析" --category="行业动态" --source="manual"
+**示例**:
+```
+文献解读/2025-12-24_基于多模态融合的FeO浓度实时预测技术研究.md
 ```
 
 ---
 
-## Important Constraints & Best Practices
+## 测试与质量
 
-### Content Location
-- **NEVER** store generated articles in the plugin directory
-- **ALWAYS** use `../../wechat_doc/` relative path for content storage
-- Plugin directory is for code/config only; `wechat_doc/` is for content only
+### 当前测试状态
 
-### Path Resolution
-All file operations in commands/skills must use:
-```javascript
-const contentBase = '../../wechat_doc';
-const categoryPath = `${contentBase}/${category}`;
-const filePath = `${categoryPath}/${date}_${title}.md`;
+| 类型 | 状态 | 说明 |
+|------|------|------|
+| 单元测试 | 未实现 | 建议为搜索服务器添加测试 |
+| 集成测试 | 未实现 | 建议为命令/技能添加 E2E 测试 |
+| 手动测试 | 部分 | 通过 Claude Code 交互验证 |
+
+### 质量保证清单
+
+#### 内容质量
+- [ ] 使用客观、中立的第三人称表达
+- [ ] 基于可靠来源的数据和事实
+- [ ] 包含必要的局限性说明
+- [ ] 遵循 `WRITING_STYLE_GUIDE.md` 规范
+
+#### 技术质量
+- [ ] 搜索服务器响应正常
+- [ ] MCP 工具可正常调用
+- [ ] 文件路径正确解析
+- [ ] 错误处理和提示清晰
+
+#### 文档质量
+- [ ] 命令文档包含参数说明
+- [ ] 技能文档包含触发条件
+- [ ] 示例代码可执行
+- [ ] 变更记录更新
+
+---
+
+## 常见问题 (FAQ)
+
+### Q1: 插件无法被 Claude Code 识别
+**A**: 检查以下项：
+1. `.claude-plugin/plugin.json` 文件存在且格式正确
+2. 插件目录路径正确
+3. 使用 `--plugin-dir` 参数指定路径
+
+### Q2: 搜索服务无法启动
+**A**:
+1. 检查 Node.js 版本 >= 14.0.0
+2. 确认端口 3001 未被占用
+3. 运行 `npm install` 安装依赖
+4. 查看错误日志
+
+### Q3: 生成的文章仍有"AI味"
+**A**:
+1. 使用 `pdf-analysis-objective` 替代 `pdf-analysis`
+2. 使用 `create-article-objective` 替代 `create-article`
+3. 参考 `WRITING_STYLE_GUIDE.md` 检查用词
+4. 确保使用第三人称视角
+
+### Q4: 内容目录路径错误
+**A**:
+1. 检查 `config.json` 中 `base_path` 配置
+2. 确认使用相对路径 `../../wechat_doc`
+3. 验证目录是否存在
+
+### Q5: 如何添加新的文章分类？
+**A**:
+1. 编辑 `config.json` 添加新分类
+2. 创建目录: `mkdir -p ../../wechat_doc/新分类`
+3. 更新 `CONTENT_GUIDE.md` 文档
+
+---
+
+## 相关文件清单
+
+### 核心文件
+```
+wechat-content-writer/
+├── .claude-plugin/plugin.json     # 插件元数据
+├── .mcp.json                      # MCP 服务器配置
+├── config.json                    # 插件配置
+├── package.json                   # NPM 包配置
+├── CLAUDE.md                      # 本文档
+├── README.md                      # 项目概述
+├── CONTENT_GUIDE.md               # 内容组织指南
+├── WRITING_STYLE_GUIDE.md         # 写作风格指南
+├── INSTALL_GUIDE.md               # 安装指南
+├── install.sh                     # Unix 安装脚本
+├── install.ps1                    # Windows 安装脚本
+├── agents/content-writer.md       # 内容创作代理
+├── commands/                      # 命令目录 (9个命令)
+├── skills/                        # 技能目录 (3个技能)
+└── scripts/                       # 服务脚本 (2个脚本)
 ```
 
-### Objectivity in Content
-- Prefer `pdf-analysis-objective` skill for academic/technical content
-- Use `create-article-objective` command for professional articles
-- Follow `WRITING_STYLE_GUIDE.md` for tone and style
-- Always include limitations and balanced perspectives
+### 命令文件
+```
+commands/
+├── create-paper.md                # 学术论文解读
+├── create-article-objective.md    # 客观文章创建
+├── create-news.md                 # 新闻分析
+├── create-tutorial.md             # 教程创作
+├── create-report.md               # 报告生成
+├── create-tech.md                 # 技术解析
+├── create-article.md              # 通用文章
+├── search-content.md              # 内容搜索
+└── manage-categories.md           # 分类管理
+```
 
-### Error Handling
-- Validate category exists before file creation
-- Check if `wechat_doc/` base directory exists
-- Provide helpful error messages for path issues
-- Auto-create directories if `auto_create_directories: true` in config
+### 技能文件
+```
+skills/
+├── literature-research/
+│   └── SKILL.md                   # 文献研究技能
+├── pdf-analysis/
+│   └── SKILL.md                   # PDF 解读技能
+├── pdf-analysis-objective/
+│   └── SKILL.md                   # 客观 PDF 分析技能
+└── literature-research/
+    └── examples/
+        └── search-strategy-example.md
+```
 
----
-
-## Dependencies
-
-### Runtime
-- `express`: Web server framework
-- `cors`: Cross-origin resource sharing
-- `axios`: HTTP client for API requests
-- `jsdom`: DOM parsing for web content extraction
-
-### Development
-- `nodemon`: Auto-reload during development
-
-### Node.js Version
-- Requires `>=14.0.0`
-
----
-
-## Troubleshooting
-
-### Issue: "File not found" errors
-**Solution:** Verify `base_path` in `config.json` points to correct `wechat_doc` location relative to plugin root
-
-### Issue: MCP server not responding
-**Solution:** 
-1. Check if search server is running: `npm start`
-2. Verify PORT environment variable (default 3001)
-3. Check `.mcp.json` configuration
-
-### Issue: Category directory missing
-**Solution:**
-1. Run installation script: `.\install.ps1` or `./install.sh`
-2. Manually create: `mkdir -p ../../wechat_doc/{category-name}`
-3. Verify `auto_create_directories: true` in config
-
-### Issue: Generated content has "AI flavor"
-**Solution:** 
-1. Use `create-article-objective` command instead of `create-article`
-2. Use `pdf-analysis-objective` skill instead of `pdf-analysis`
-3. Review `WRITING_STYLE_GUIDE.md` for style guidelines
-4. Ensure third-person perspective and neutral language
+### 服务脚本
+```
+scripts/
+├── search-server.js               # 主搜索服务器
+├── simple-search-server.js        # 简化搜索服务器
+└── test-plugin.js                 # 测试脚本
+```
 
 ---
 
-## Plugin Extension Points
+## 变更记录 (Changelog)
 
-### Adding New Skills
-1. Create directory: `skills/your-skill-name/`
-2. Add `SKILL.md` with frontmatter (name, description, version)
-3. Define triggers, workflow, and output format
-4. Add examples in `skills/your-skill-name/examples/`
-
-### Adding New Commands
-1. Create markdown file: `commands/your-command.md`
-2. Add frontmatter (name, description, argument-hint, allowed-tools)
-3. Document usage, arguments, execution process
-4. Include examples and error handling
-
-### Modifying Search Server
-- Add new endpoints in `scripts/search-server.js`
-- Update API integration functions
-- Modify request/response handling
-- Update health check endpoint documentation
+### 2025-12-24 - v1.0.0
+- 初始化模块架构文档
+- 添加面包屑导航
+- 整理命令、技能、接口清单
+- 完善数据模型说明
+- 添加常见问题解答
 
 ---
 
-## Documentation References
-
-- **README.md**: Project overview and features
-- **CONTENT_GUIDE.md**: Directory structure and file path conventions
-- **WRITING_STYLE_GUIDE.md**: Objective writing style guidelines
-- **INSTALL_GUIDE.md**: Detailed installation instructions
-- **PLUGIN_OPTIMIZATION_SUMMARY.md**: Performance and optimization notes
-
----
-
-## Key Design Decisions
-
-### Why Separate Plugin and Content Directories?
-- Plugin code can be version-controlled independently
-- Content can be managed/backed up separately
-- Clear separation of concerns (code vs. data)
-- Easier plugin updates without affecting user content
-
-### Why Objective Writing Style?
-- WeChat official accounts require professional credibility
-- Technical audiences prefer factual, data-driven content
-- Avoids "clickbait" reputation damage
-- Better long-term audience engagement and trust
-
-### Why Date-Based File Naming?
-- Natural chronological organization
-- Easy to identify content recency
-- Supports content archival and cleanup
-- Aligns with content management best practices
-
----
-
-*This CLAUDE.md is maintained alongside the plugin. Update when adding new commands, skills, or modifying core architecture.*
+*本文档由 init-architect 自动生成和维护*

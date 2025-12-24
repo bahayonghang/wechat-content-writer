@@ -1,0 +1,67 @@
+# WeChat Content Writer Documentation - Justfile
+# 使用方法: just <recipe>
+# 示例: just dev
+
+# 默认命令
+default:
+    @just --list
+
+# 安装依赖
+install:
+    npm install
+
+# 启动开发服务器
+dev:
+    npm run dev
+
+# 构建生产版本
+build:
+    npm run build
+
+# 预览构建结果
+preview:
+    npm run preview
+
+# 清理构建文件
+clean:
+    rm -rf .vitepress/dist
+    rm -rf .vitepress/cache
+
+# 深度清理（包括 node_modules）
+distclean: clean
+    rm -rf node_modules
+
+# 格式化检查
+fmt:
+    npx prettier --check .
+
+# 格式化修复
+fmt-fix:
+    npx prettier --write .
+
+# 重新安装依赖并启动
+fresh: install dev
+
+# 构建并预览
+build-preview: build preview
+
+# 显示版本信息
+version:
+    @echo "VitePress Documentation"
+    @node --version
+    @npm --version
+
+# 帮助信息
+help:
+    @echo "可用的命令:"
+    @echo "  just install      - 安装依赖"
+    @echo "  just dev          - 启动开发服务器"
+    @echo "  just build        - 构建生产版本"
+    @echo "  just preview      - 预览构建结果"
+    @echo "  just clean        - 清理构建文件"
+    @echo "  just distclean    - 深度清理"
+    @echo "  just fmt          - 格式化检查"
+    @echo "  just fmt-fix      - 格式化修复"
+    @echo "  just fresh        - 重新安装并启动"
+    @echo "  just build-preview - 构建并预览"
+    @echo "  just version      - 显示版本信息"

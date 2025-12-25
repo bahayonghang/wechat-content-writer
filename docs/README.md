@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-访问 http://localhost:5173 查看文档。
+访问 `http://localhost:5173` 查看文档。
 
 ### 构建生产版本
 
@@ -71,4 +71,4 @@ docs/
 
 ## 许可
 
-[MIT License](../LICENSE)
+[MIT License](https://github.com/bahayonghang/wechat-content-writer/blob/master/LICENSE)

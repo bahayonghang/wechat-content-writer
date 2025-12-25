@@ -3,14 +3,15 @@
  */
 import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'node:url'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'WeChat Content Writer',
   description: '专业的微信公众号内容创作插件 - 文献搜索、PDF分析、自动化文章生成',
   lang: 'zh-CN',
   base: '/',
 
-  srcDir: fileURLToPath(new URL('.', import.meta.url)),
+  srcDir: fileURLToPath(new URL('..', import.meta.url)),
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
@@ -104,4 +105,4 @@ export default defineConfig({
       // Add custom markdown-it plugins if needed
     }
   }
-})
+}))

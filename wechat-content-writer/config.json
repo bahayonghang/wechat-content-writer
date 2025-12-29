@@ -25,5 +25,62 @@
     }
   },
   "auto_create_directories": true,
-  "content_validation": true
+  "content_validation": true,
+  "writing_modes": {
+    "default_mode": "objective_professional",
+    "modes": {
+      "objective_professional": {
+        "description": "客观专业模式（默认）- 适用于学术论文、技术分析、行业报告",
+        "tone": "third-person",
+        "style": "neutral, data-driven, evidence-based",
+        "audience": "technical professionals, researchers",
+        "focus": ["technical_accuracy", "objectivity", "evidence_support"],
+        "avoid": ["first_person", "subjective_opinions", "emotional_language"],
+        "feedback_emphasis": ["accuracy", "clarity", "evidence", "objectivity"]
+      },
+      "collaborative_personal": {
+        "description": "协作个性化模式 - 适用于个人博客、技术分享、经验总结",
+        "tone": "user-defined (flexible)",
+        "style": "preserve author voice, balance technical and accessible",
+        "audience": "general technical readers, developers",
+        "focus": ["author_voice", "engagement", "relatability"],
+        "allow": ["first_person (when appropriate)", "personal_insights", "opinions (with reasoning)"],
+        "feedback_emphasis": ["voice_consistency", "engagement", "authenticity", "clarity"]
+      }
+    },
+    "mode_selection": {
+      "by_category": {
+        "文献解读": "objective_professional",
+        "行业动态": "objective_professional",
+        "技术分享": "collaborative_personal",
+        "AI-Coding": "collaborative_personal",
+        "AI工业应用": "objective_professional"
+      },
+      "by_template": {
+        "academic-research": "objective_professional",
+        "technical-analysis": "objective_professional",
+        "industry-report": "objective_professional",
+        "tutorial": "collaborative_personal",
+        "technology-guide": "collaborative_personal"
+      }
+    }
+  },
+  "workspace_mode": {
+    "enabled": true,
+    "auto_create": false,
+    "location": "../../wechat_writing_workspace",
+    "structure": {
+      "outline": "outline.md",
+      "research": "research.md",
+      "drafts": "draft-v{number}.md",
+      "feedback": "feedback.md",
+      "final": "final.md",
+      "sources": "sources/"
+    },
+    "version_control": {
+      "enabled": true,
+      "auto_backup": true,
+      "backup_pattern": "{filename}.backup.{timestamp}"
+    }
+  }
 }

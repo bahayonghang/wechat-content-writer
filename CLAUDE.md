@@ -1,8 +1,9 @@
 # WeChat Content Writer Plugin - 项目架构文档
 
-> **最后更新**: 2025-12-24
+> **最后更新**: 2025-12-28
 > **项目类型**: Claude Code 插件
 > **技术栈**: JavaScript/Node.js, Express.js, MCP (Model Context Protocol)
+> **版本**: v2.0.0 - 协作式迭代写作
 
 ---
 
@@ -10,6 +11,7 @@
 
 | 日期 | 版本 | 变更内容 |
 |------|------|----------|
+| 2025-12-28 | 2.0.0 | 🎉 **重大更新**：实施协作式迭代写作流程<br/>✨ 新增6个核心功能（collaborative-outline, optimize-hook, smart-workflow等）<br/>⚡ 增强content-writer分段反馈能力<br/>📖 新增Quick Start Guide和完善文档 |
 | 2025-12-24 | 1.0.0 | 初始化项目架构文档 |
 
 ---
@@ -23,6 +25,9 @@
 - **研究驱动**: 基于 arXiv、Google Scholar 等学术来源的内容生成
 - **结构化输出**: 日期命名、分类管理的自动化文件组织
 - **内容与插件分离**: 插件代码与生成内容独立存储，便于版本控制和备份
+- 🆕 **协作式迭代**: v2.0引入完整的协作写作工作流，从大纲到发布全程支持
+- 🆕 **分段反馈**: 每个section都获得详细反馈，持续改进而非一次性生成
+- 🆕 **智能引导**: 5种标准工作流自动推荐，新手友好
 
 ---
 
@@ -167,25 +172,29 @@ graph TD
 
 ### 命令模块详细列表
 
-| 命令 | 用途 | 入参 | 模板类型 |
-|------|------|------|----------|
-| `create-paper` | 学术论文解读 | `title, --category, [--url]` | Academic Research |
-| `create-article-objective` | 客观专业文章 | `title, --category, --source, [--template]` | Multiple |
-| `create-news` | 行业新闻分析 | `title, --category, [--source]` | News Analysis |
-| `create-tutorial` | 技术教程 | `title, --category, --level` | Tutorial |
-| `create-report` | 行业研究报告 | `title, --category, --focus` | Industry Report |
-| `create-tech` | 技术深度解析 | `title, --category, --aspect` | Technical Deep Dive |
-| `create-article` | 通用文章创建 | `title, --category, --source, [--template]` | Multiple |
-| `search-content` | 内容搜索 | `query` | N/A |
-| `manage-categories` | 分类管理 | `list/add/remove` | N/A |
+| 命令 | 用途 | 入参 | 版本 |
+|------|------|------|------|
+| `create-paper` | 学术论文解读 | `title, --category, [--url]` | v1.0 |
+| `create-article-objective` | 客观专业文章 | `title, --category, --source, [--template]` | v1.0 |
+| `create-news` | 行业新闻分析 | `title, --category, [--source]` | v1.0 |
+| `create-tutorial` | 技术教程 | `title, --category, --level` | v1.0 |
+| `create-report` | 行业研究报告 | `title, --category, --focus` | v1.0 |
+| `create-tech` | 技术深度解析 | `title, --category, --aspect` | v1.0 |
+| `create-article` | 通用文章创建 | `title, --category, --source, [--template]` | v1.0 |
+| `search-content` | 内容搜索 | `query` | v1.0 |
+| `manage-categories` | 分类管理 | `list/add/remove` | v1.0 |
+| 🆕 `optimize-hook` | **Hook优化** | `<article_path> or --content=<content>` | v2.0 |
+| 🆕 `init-workspace` | **工作区初始化** | `<article_name>` | v2.0 |
 
 ### 技能模块详细列表
 
-| 技能 | 触发关键词 | 用途 | 风格 |
+| 技能 | 触发关键词 | 用途 | 版本 |
 |------|-----------|------|------|
-| `literature-research` | "搜索文献", "literature search" | 学术文献搜索与研究 | 专业研究导向 |
-| `pdf-analysis` | "解析PDF", "analyze PDF" | PDF文档分析与解读 | 通俗易懂 |
-| `pdf-analysis-objective` | "客观分析", "专业解读" | PDF客观技术分析 | 严谨专业 |
+| `literature-research` | "搜索文献", "literature search" | 学术文献搜索与研究 | v1.0 |
+| `pdf-analysis` | "解析PDF", "analyze PDF" | PDF文档分析与解读 | v1.0 |
+| `pdf-analysis-objective` | "客观分析", "专业解读" | PDF客观技术分析 | v1.0 |
+| 🆕 `collaborative-outline` | "创建大纲", "outline", "规划结构" | **协作式大纲创建** | v2.0 |
+| 🆕 `smart-writing-workflow` | "开始写作流程", "guide writing" | **智能工作流编排** | v2.0 |
 
 ---
 
@@ -269,7 +278,55 @@ npm test
 
 ## AI 使用指引
 
-### 内容创作工作流
+### v2.0 协作式写作工作流（推荐）
+
+**最简单的开始方式**：
+```
+对话中说："开始写作流程"
+```
+
+浮浮酱会自动引导你完成整个创作过程喵～ ฅ'ω'ฅ
+
+```mermaid
+graph TD
+    Start[开始创作] --> Choice{选择方式}
+    
+    Choice -->|新手推荐| Workflow[智能工作流引导]
+    Choice -->|传统方式| Traditional[直接生成]
+    
+    Workflow --> Outline[Phase 1: 协作大纲]
+    Outline --> Research[Phase 2: 补充研究]
+    Research --> Draft[Phase 3: 分段写作]
+    Draft --> Section1[写Section + 反馈]
+    Section1 --> Section2[写Section + 反馈]
+    Section2 --> MoreSections[...]
+    MoreSections --> Hook[Phase 4: Hook优化]
+    Hook --> FinalPolish[Phase 5: 最终润色]
+    FinalPolish --> Publish[发布]
+    
+    Traditional --> QuickGen[快速生成文章]
+    QuickGen --> OptionalHook[可选: Hook优化]
+    OptionalHook --> Publish
+    
+    Publish --> End[完成！]
+    
+    style Workflow fill:#e1f5ff
+    style Outline fill:#fff4e1
+    style Draft fill:#f0fff0
+    style Hook fill:#ffe1f5
+```
+
+### 5种标准工作流
+
+| 工作流 | 适用场景 | 预计时间 | 触发方式 |
+|-------|---------|---------|---------|
+| 📚 Academic | 学术论文解读 | ~3小时 | 对话："我要解读一篇论文" |
+| 🛠 Tutorial | 技术教程创作 | ~4小时 | 对话："写一个教程" |
+| 📊 Analysis | 行业分析报告 | ~3.5小时 | 对话："分析XX趋势" |
+| 🔄 Synthesis | 资料综合整理 | ~3小时 | 对话："整合这些资料" |
+| ✨ Guided | 从零开始创作 | ~4小时 | 对话："开始写作流程" |
+
+### 传统内容创作工作流（v1.0）
 
 ```mermaid
 graph LR
@@ -290,6 +347,14 @@ graph LR
 
 ### 推荐使用顺序
 
+#### v2.0协作式（推荐新手和重要文章）
+1. **规划阶段**: 对话"创建大纲" → 使用 `collaborative-outline`
+2. **研究阶段**: 使用 `literature-research` 搜索文献
+3. **创作阶段**: 逐section写作 → 每段获得 `content-writer` 详细反馈
+4. **优化阶段**: `/optimize-hook` 优化开头
+5. **润色阶段**: `content-writer` 最终review
+
+#### v1.0快速模式（适合简单文章）
 1. **研究阶段**: 使用 `literature-research` 技能搜索相关文献
 2. **分析阶段**: 使用 `pdf-analysis-objective` 技能客观分析 PDF
 3. **创作阶段**: 使用 `create-article-objective` 命令生成文章

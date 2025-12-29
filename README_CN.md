@@ -1,5 +1,7 @@
 # 微信公众号内容创作插件
 
+> ⚠️ **注意**：这个skill目前还在自用测试阶段，如果有问题请在issue中及时反馈。
+
 > 专业的 Claude Code 插件，用于微信公众号内容创作，支持文献搜索、PDF解读和自动文章生成。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)

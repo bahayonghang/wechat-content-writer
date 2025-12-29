@@ -1,5 +1,7 @@
 # WeChat Content Writer
 
+> ⚠️ **Note**: This skill is currently in the self-use testing phase. If you have any questions, please report them in the issues in a timely manner.
+
 > A professional Claude Code plugin for WeChat official account content creation with intelligent literature search, PDF analysis, and automated article generation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
